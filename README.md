@@ -42,7 +42,7 @@ private void fromNetwork(String endpoint) {
 
 ##License
 ```
-Copyright 2017 aerdy4@gmail.com.
+Copyright 2017 necistudio.com
 
 Licensed under the Apache License, Version 2.0 (the "License");
 you may not use this file except in compliance with the License.
