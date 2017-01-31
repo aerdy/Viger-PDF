@@ -1,4 +1,4 @@
-# Viger - View Pager PDFOpenSource
+# Viger - View Pager PDF OpenSource
 
 <p align="center">
   <img src="https://aeroyid.files.wordpress.com/2017/01/screenshot_1485855976.png" width="350"/>
