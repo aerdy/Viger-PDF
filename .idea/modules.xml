@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ProjectModuleManager">
+    <modules>
+      <module fileurl="file://$PROJECT_DIR$/PDFViger.iml" filepath="$PROJECT_DIR$/PDFViger.iml" />
+      <module fileurl="file://$PROJECT_DIR$/PDFVigerLib/PDFVigerLib.iml" filepath="$PROJECT_DIR$/PDFVigerLib/PDFVigerLib.iml" />
+      <module fileurl="file://$PROJECT_DIR$/SampleViger/SampleViger.iml" filepath="$PROJECT_DIR$/SampleViger/SampleViger.iml" />
+    </modules>
+  </component>
+</project>
