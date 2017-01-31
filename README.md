@@ -9,7 +9,7 @@
 ```
         minSdkVersion 15
 ```
-### Library Support Open Source PDF and Connetion 
+### Library Support Open Source PDF and Connection 
 - Vudroid Library PDF
 - Retrofit 2 Get Stream Connection
 
