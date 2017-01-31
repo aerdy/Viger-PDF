@@ -7,10 +7,10 @@
 ##Download
 Gradle:
 ```
-  repositories {
+repositories {
         jcenter()
         maven { url 'https://jitpack.io' }
-    }
+}
 ```
 ```
 dependencies {
