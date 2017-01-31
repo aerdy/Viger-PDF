@@ -52,7 +52,6 @@ public class RestClient  {
                     .build();
 
             Retrofit client = new Retrofit.Builder()
-                    .baseUrl("http://www.pdf995.com")
                     .client(okclient)
                     .addConverterFactory(GsonConverterFactory.create())
                     .build();
