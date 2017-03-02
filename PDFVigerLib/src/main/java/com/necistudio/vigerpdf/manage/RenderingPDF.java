@@ -26,7 +26,7 @@ import java.util.Date;
  * Created by Vim on 1/31/2017.
  */
 
-public class RenderingPDF extends AsyncTask<Void, String, ArrayList<Bitmap>> {
+public class RenderingPDF extends AsyncTask<Void, Bitmap, ArrayList<Bitmap>> {
     File file;
     Context context;
     int pageCount, pageData, type;
@@ -46,6 +46,7 @@ public class RenderingPDF extends AsyncTask<Void, String, ArrayList<Bitmap>> {
             decodeService.open(Uri.fromFile(file));
             pageCount = decodeService.getPageCount();
 
+            int a = 10;
             for (int i = 0; i < pageCount; i++) {
                 pageData = i;
                 if (isCancelled()) {
@@ -54,11 +55,16 @@ public class RenderingPDF extends AsyncTask<Void, String, ArrayList<Bitmap>> {
                 CodecPage page = decodeService.getPage(i);
                 RectF rectF = new RectF(0, 0, 1, 1);
                 Bitmap bitmap = page.renderBitmap(decodeService.getPageWidth(i), decodeService.getPageHeight(i), rectF);
-                try {
-                    uris.add(bitmap);
-                } catch (Exception e) {
+                publishProgress(bitmap);
+                if (i == a) {
+                    a = a + 10;
+                    try {
+                        Thread.currentThread();
+                        Thread.sleep(5000);
+                    } catch (InterruptedException e) {
+                        e.printStackTrace();
+                    }
                 }
-                publishProgress("" + (int) ((i * 100) / pageCount));
             }
             if (type == 1) {
                 file.delete();
@@ -74,18 +80,12 @@ public class RenderingPDF extends AsyncTask<Void, String, ArrayList<Bitmap>> {
     }
 
     @Override
-    protected void onProgressUpdate(String... values) {
-//        progressBar.setProgress(Integer.parseInt(values[0]));
-//        progressBar.setSecondaryProgress(Integer.parseInt(values[0]) + 10);
-//        txtPageProgress.setText(pageData + "/" + pageCount + " page");
+    protected void onProgressUpdate(Bitmap... values) {
+        VigerPDF.setData(values[0]);
     }
 
     @Override
     public void onPostExecute(ArrayList<Bitmap> uris) {
-        try {
-            VigerPDF.setData(uris);
-        } catch (Exception e) {
 
-        }
     }
 }

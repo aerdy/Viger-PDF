@@ -2,9 +2,11 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
-      <module fileurl="file://$PROJECT_DIR$/PDFViger.iml" filepath="$PROJECT_DIR$/PDFViger.iml" />
+      <module fileurl="file://$PROJECT_DIR$/Android-Viger_View_Pager_PDF_OpenSource.iml" filepath="$PROJECT_DIR$/Android-Viger_View_Pager_PDF_OpenSource.iml" />
+      <module fileurl="file://$PROJECT_DIR$/PDFCreateLib/PDFCreateLib.iml" filepath="$PROJECT_DIR$/PDFCreateLib/PDFCreateLib.iml" />
       <module fileurl="file://$PROJECT_DIR$/PDFVigerLib/PDFVigerLib.iml" filepath="$PROJECT_DIR$/PDFVigerLib/PDFVigerLib.iml" />
       <module fileurl="file://$PROJECT_DIR$/SampleViger/SampleViger.iml" filepath="$PROJECT_DIR$/SampleViger/SampleViger.iml" />
+      <module fileurl="file://$PROJECT_DIR$/PDFCreateLib/pdfcreatelib.iml" filepath="$PROJECT_DIR$/PDFCreateLib/pdfcreatelib.iml" />
     </modules>
   </component>
 </project>

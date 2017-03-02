@@ -11,5 +11,7 @@ import java.util.ArrayList;
  */
 
 public interface OnResultListener  {
-    void resultData(ArrayList<Bitmap> data);
+    void resultData(Bitmap data);
+    void progressData(int progress);
+    void failed(Throwable t);
 }

@@ -25,11 +25,18 @@ public class VigerPDF {
         new RenderingPDFNetwork(context, endpoint);
     }
 
-    public static ArrayList<Bitmap> setData(ArrayList<Bitmap> itemData) {
+    public static Bitmap setData(Bitmap itemData) {
         onResultListener.resultData(itemData);
         return itemData;
     }
-
+    public static Throwable failedData(Throwable t){
+        onResultListener.failed(t);
+        return t;
+    }
+    public static int progressData(int progress){
+        onResultListener.progressData(progress);
+        return progress;
+    }
     public void initFromFile(OnResultListener resultListener) {
         this.onResultListener = resultListener;
     }

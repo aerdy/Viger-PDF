@@ -9,6 +9,9 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
 
+import com.eftimoff.viewpagertransformers.AccordionTransformer;
+import com.eftimoff.viewpagertransformers.StackTransformer;
+import com.eftimoff.viewpagertransformers.TabletTransformer;
 import com.nbsp.materialfilepicker.MaterialFilePicker;
 import com.nbsp.materialfilepicker.ui.FilePickerActivity;
 import com.necistudio.vigerpdf.adapter.VigerAdapter;
@@ -22,7 +25,10 @@ import java.util.regex.Pattern;
 public class MainActivity extends AppCompatActivity {
 
     private ViewPager viewPager;
+    private ArrayList<Bitmap> itemData;
+    private VigerAdapter adapter;
     private Button btnFromFile, btnFromNetwork;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -38,9 +44,7 @@ public class MainActivity extends AppCompatActivity {
                 new MaterialFilePicker()
                         .withActivity(MainActivity.this)
                         .withRequestCode(100)
-                        .withFilter(Pattern.compile(".*\\.pdf$")) // Filtering files and directories by file name using regexp
-                        //withFilterDirectories(true) // Set directories filterable (false by default)
-                        //.withHiddenFiles(true) // Show hidden files and folders
+                        .withFilter(Pattern.compile(".*\\.pdf$"))
                         .start();
             }
         });
@@ -48,9 +52,15 @@ public class MainActivity extends AppCompatActivity {
         btnFromNetwork.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                itemData.clear();
+                adapter.notifyDataSetChanged();
                 fromNetwork("http://www.pdf995.com/samples/pdf.pdf");
             }
         });
+        itemData = new ArrayList<>();
+        adapter = new VigerAdapter(getApplicationContext(),itemData);
+        viewPager.setAdapter(adapter);
+        viewPager.setPageTransformer(true,new StackTransformer());
 
     }
 
@@ -58,6 +68,8 @@ public class MainActivity extends AppCompatActivity {
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         if (requestCode == 100 && resultCode == RESULT_OK) {
+            itemData.clear();
+            adapter.notifyDataSetChanged();
             String filePath = data.getStringExtra(FilePickerActivity.RESULT_FILE_PATH);
             fromFile(filePath);
         }
@@ -66,10 +78,21 @@ public class MainActivity extends AppCompatActivity {
     private void fromNetwork(String endpoint) {
         new VigerPDF(this, endpoint).initFromFile(new OnResultListener() {
             @Override
-            public void resultData(ArrayList<Bitmap> data) {
-                VigerAdapter adapter = new VigerAdapter(getApplicationContext(),data);
-                viewPager.setAdapter(adapter);
+            public void resultData(Bitmap data) {
+                itemData.add(data);
+                adapter.notifyDataSetChanged();
             }
+
+            @Override
+            public void progressData(int progress) {
+
+            }
+
+            @Override
+            public void failed(Throwable t) {
+
+            }
+
         });
     }
 
@@ -77,10 +100,21 @@ public class MainActivity extends AppCompatActivity {
         File file = new File(path);
         new VigerPDF(this, file).initFromFile(new OnResultListener() {
             @Override
-            public void resultData(ArrayList<Bitmap> data) {
-                VigerAdapter adapter = new VigerAdapter(getApplicationContext(),data);
-                viewPager.setAdapter(adapter);
+            public void resultData(Bitmap data) {
+                itemData.add(data);
+                adapter.notifyDataSetChanged();
             }
+
+            @Override
+            public void progressData(int progress) {
+
+            }
+
+            @Override
+            public void failed(Throwable t) {
+
+            }
+
         });
     }
 }
