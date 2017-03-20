@@ -19,6 +19,14 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 
+import io.reactivex.Observable;
+import io.reactivex.ObservableEmitter;
+import io.reactivex.ObservableOnSubscribe;
+import io.reactivex.Observer;
+import io.reactivex.android.schedulers.AndroidSchedulers;
+import io.reactivex.disposables.Disposable;
+import io.reactivex.functions.Action;
+import io.reactivex.schedulers.Schedulers;
 import okhttp3.ResponseBody;
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -30,6 +38,8 @@ import retrofit2.Response;
 
 public class RenderingPDFNetwork {
     private Context context;
+    private Observable<String> observable;
+
     public RenderingPDFNetwork(Context context, String endpoint) {
         this.context = context;
         final RestClient.ApiInterface service = RestClient.getClient();
@@ -52,9 +62,9 @@ public class RenderingPDFNetwork {
     }
 
     private boolean writeResponseBodyToDisk(final ResponseBody body) {
-        new AsyncTask<Void, String, String>() {
+        observable.create(new ObservableOnSubscribe<String>() {
             @Override
-            protected String doInBackground(Void... params) {
+            public void subscribe(ObservableEmitter<String> e) throws Exception {
                 try {
                     String root = Environment.getExternalStorageDirectory().toString();
                     final File pdfFolder = new File(root + "/Android/data/" + context.getPackageName());
@@ -73,22 +83,21 @@ public class RenderingPDFNetwork {
                         outputStream = new FileOutputStream(path);
 
                         while (true) {
-                            if (isCancelled()) {
-                                break;
-                            }
                             int read = inputStream.read(fileReader);
                             if (read == -1) {
                                 break;
                             }
                             outputStream.write(fileReader, 0, read);
                             fileSizeDownloaded += read;
-                            publishProgress("" + (int) ((fileSizeDownloaded * 100) / fileSize));
+                            e.onNext("" + (int) ((fileSizeDownloaded * 100) / fileSize));
                         }
 
                         outputStream.flush();
 
-                    } catch (IOException e) {
+                    } catch (IOException ee) {
                         //  Log.e("data",e.getMessage());
+                        e.onError(ee);
+                        e.onComplete();
                     } finally {
                         if (inputStream != null) {
                             inputStream.close();
@@ -97,29 +106,36 @@ public class RenderingPDFNetwork {
                             outputStream.close();
                         }
                     }
-                    return path;
-                } catch (IOException e) {
-                    return null;
+                    File file = new File(path);
+                    new RenderingPDF(context, file, 1);
+                    e.onComplete();
+                } catch (IOException ee) {
+                    e.onError(ee);
+                    e.onComplete();
                 }
             }
+        }).subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new Observer<String>() {
+                    @Override
+                    public void onSubscribe(Disposable d) {
+                    }
 
+                    @Override
+                    public void onNext(String s) {
+                        Log.e("data", "" + Integer.parseInt(s));
+                    }
 
-            @Override
-            protected void onProgressUpdate(String... values) {
-                Log.e("data",""+Integer.parseInt(values[0]));
-            }
+                    @Override
+                    public void onError(Throwable e) {
 
-            @Override
-            protected void onPostExecute(String s) {
-                super.onPostExecute(s);
-                try {
-                    File file = new File(s);
-                    new RenderingPDF(context, file, 1).execute();
-                } catch (Exception e) {
+                    }
 
-                }
-            }
-        }.execute();
+                    @Override
+                    public void onComplete() {
+
+                    }
+                });
         return true;
     }
 }

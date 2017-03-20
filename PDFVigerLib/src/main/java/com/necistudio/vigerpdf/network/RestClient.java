@@ -52,7 +52,7 @@ public class RestClient  {
                     .build();
 
             Retrofit client = new Retrofit.Builder()
-                    .baseUrl("http://google.com")
+                    .baseUrl("http://necistudio.com")
                     .client(okclient)
                     .addConverterFactory(GsonConverterFactory.create())
                     .build();

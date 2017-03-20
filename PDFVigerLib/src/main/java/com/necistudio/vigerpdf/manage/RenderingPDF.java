@@ -22,70 +22,76 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 
+import io.reactivex.Observable;
+import io.reactivex.ObservableEmitter;
+import io.reactivex.ObservableOnSubscribe;
+import io.reactivex.Observer;
+import io.reactivex.android.schedulers.AndroidSchedulers;
+import io.reactivex.disposables.Disposable;
+import io.reactivex.schedulers.Schedulers;
+
 /**
  * Created by Vim on 1/31/2017.
  */
 
-public class RenderingPDF extends AsyncTask<Void, Bitmap, ArrayList<Bitmap>> {
+public class RenderingPDF {
     File file;
     Context context;
-    int pageCount, pageData, type;
+    int pageCount, type;
+    Observable<Bitmap> observable;
 
     public RenderingPDF(Context context, File file, int type) {
         this.file = file;
         this.context = context;
         this.type = type;
+        initRun();
     }
 
-    @Override
-    protected ArrayList<Bitmap> doInBackground(Void... params) {
-        try {
-            ArrayList<Bitmap> uris = new ArrayList<>();
-            DecodeServiceBase decodeService = new DecodeServiceBase(new PdfContext());
-            decodeService.setContentResolver(context.getContentResolver());
-            decodeService.open(Uri.fromFile(file));
-            pageCount = decodeService.getPageCount();
-
-            int a = 10;
-            for (int i = 0; i < pageCount; i++) {
-                pageData = i;
-                if (isCancelled()) {
-                    break;
-                }
-                CodecPage page = decodeService.getPage(i);
-                RectF rectF = new RectF(0, 0, 1, 1);
-                Bitmap bitmap = page.renderBitmap(decodeService.getPageWidth(i), decodeService.getPageHeight(i), rectF);
-                publishProgress(bitmap);
-                if (i == a) {
-                    a = a + 10;
-                    try {
-                        Thread.currentThread();
-                        Thread.sleep(5000);
-                    } catch (InterruptedException e) {
-                        e.printStackTrace();
+    private void initRun() {
+        observable.create(new ObservableOnSubscribe<Bitmap>() {
+            @Override
+            public void subscribe(ObservableEmitter<Bitmap> e) throws Exception {
+                try {
+                    DecodeServiceBase decodeService = new DecodeServiceBase(new PdfContext());
+                    decodeService.setContentResolver(context.getContentResolver());
+                    decodeService.open(Uri.fromFile(file));
+                    pageCount = decodeService.getPageCount();
+                    for (int i = 0; i < pageCount; i++) {
+                        CodecPage page = decodeService.getPage(i);
+                        RectF rectF = new RectF(0, 0, 1, 1);
+                        Bitmap bitmap = page.renderBitmap(decodeService.getPageWidth(i), decodeService.getPageHeight(i), rectF);
+                        e.onNext(bitmap);
                     }
+                    if (type == 1) {
+                        file.delete();
+                    }
+                    e.onComplete();
+
+                } catch (Exception ee) {
+                    e.onError(ee);
                 }
             }
-            if (type == 1) {
-                file.delete();
-            }
+        }).subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new Observer<Bitmap>() {
+                    @Override
+                    public void onSubscribe(Disposable d) {
+                    }
 
-            return uris;
+                    @Override
+                    public void onNext(Bitmap value) {
+                        VigerPDF.setData(value);
+                    }
 
-        } catch (Exception e) {
+                    @Override
+                    public void onError(Throwable e) {
+                        Log.d("data", e.getMessage());
+                    }
 
-        }
-        return null;
-
+                    @Override
+                    public void onComplete() {
+                    }
+                });
     }
 
-    @Override
-    protected void onProgressUpdate(Bitmap... values) {
-        VigerPDF.setData(values[0]);
-    }
-
-    @Override
-    public void onPostExecute(ArrayList<Bitmap> uris) {
-
-    }
 }

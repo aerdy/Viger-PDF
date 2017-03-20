@@ -1,1 +1,1 @@
-include ':SampleViger', ':PDFVigerLib', ':PDFCreateLib'
+include ':SampleViger', ':PDFVigerLib'

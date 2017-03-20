@@ -18,7 +18,7 @@ public class VigerPDF {
     static OnResultListener onResultListener;
 
     public VigerPDF(Context context, File file) {
-        new RenderingPDF(context, file, 0).execute();
+        new RenderingPDF(context, file, 0);
     }
 
     public VigerPDF(Context context, String endpoint) {
