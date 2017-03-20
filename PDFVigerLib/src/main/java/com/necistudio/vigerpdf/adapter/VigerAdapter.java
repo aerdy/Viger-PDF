@@ -19,13 +19,10 @@ import com.necistudio.vigerpdf.utils.PhotoViewAttacher;
 import java.util.ArrayList;
 
 public class VigerAdapter extends PagerAdapter {
-    private Context context;
     private ArrayList<Bitmap> itemList;
     private LayoutInflater mLayoutInflater;
-    private PhotoViewAttacher mAttacher;
 
     public VigerAdapter(Context context, ArrayList<Bitmap> itemList) {
-        this.context = context;
         this.itemList = itemList;
         mLayoutInflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
     }
@@ -47,7 +44,7 @@ public class VigerAdapter extends PagerAdapter {
         ImageView imageView = (ImageView) itemView.findViewById(R.id.imgData);
         imageView.setImageBitmap(itemList.get(position));
         container.addView(itemView);
-        mAttacher = new PhotoViewAttacher(imageView);
+        new PhotoViewAttacher(imageView);
         return itemView;
     }
 
