@@ -1,7 +1,7 @@
 # Viger - View Pager PDF OpenSource
 
 #### Viger PDF How to Works is file pdf extract or convert to bitmap use Library Vudroid was write C Language, after that images include to adapter viewpager
-##Download
+## Download
 Gradle:
 ```
 repositories {
@@ -37,7 +37,7 @@ private void fromNetwork(String endpoint) {
     }
 ```
 
-##Supprt Get PDF From File
+## Supprt Get PDF From File
 ```
  private void fromFile(String path) {
         File file = new File(path);
@@ -51,7 +51,7 @@ private void fromNetwork(String endpoint) {
     }
 ```
 
-##License
+## License
 ```
 Copyright 2017 Necis Studio
 
