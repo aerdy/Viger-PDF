@@ -62,7 +62,7 @@ public class MainActivity extends AppCompatActivity {
             public void onClick(View v) {
                 itemData.clear();
                 adapter.notifyDataSetChanged();
-                fromNetwork("http://warungkepo.com/unduh/tempat_unduhan/9/p18hsr4kq2fce1gv3fpcmia1jd65.pdf");
+                fromNetwork("http://www.pdf995.com/samples/pdf.pdf");
             }
         });
         itemData = new ArrayList<>();
