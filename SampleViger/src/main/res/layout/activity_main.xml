@@ -25,7 +25,7 @@
         android:layout_height="wrap_content"
         android:text="Cancle" />
 
-    <com.necistudio.vigerpdf.utils.ViewPagerZoom
+    <com.necistudio.vigerpdf.utils.ViewPagerZoomHorizontal
         android:id="@+id/viewPager"
         android:layout_width="match_parent"
         android:layout_height="match_parent" />

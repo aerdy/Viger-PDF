@@ -23,40 +23,14 @@ import android.view.View;
  *
  * @author Chris Banes
  */
-public class ViewPagerZoom extends ViewPager {
+public class ViewPagerZoomHorizontal extends ViewPager {
 
-    public ViewPagerZoom(Context context) {
+    public ViewPagerZoomHorizontal(Context context) {
         super(context);
-        init();
     }
 
-    public ViewPagerZoom(Context context, AttributeSet attrs) {
+    public ViewPagerZoomHorizontal(Context context, AttributeSet attrs) {
         super(context, attrs);
-        init();
-    }
-
-    private void init() {
-        setPageTransformer(true, new VerticalPageTransformer());
-        setOverScrollMode(OVER_SCROLL_NEVER);
-    }
-
-    private class VerticalPageTransformer implements PageTransformer {
-
-        @Override
-        public void transformPage(View view, float position) {
-
-            if (position < -1) {
-                view.setAlpha(0);
-
-            } else if (position <= 1) {
-                view.setAlpha(1);
-                view.setTranslationX(view.getWidth() * -position);
-                float yPosition = position * view.getHeight();
-                view.setTranslationY(yPosition);
-            } else {
-                view.setAlpha(0);
-            }
-        }
     }
     private MotionEvent swapXY(MotionEvent ev) {
         float width = getWidth();
@@ -65,7 +39,7 @@ public class ViewPagerZoom extends ViewPager {
         float newX = (ev.getY() / height) * width;
         float newY = (ev.getX() / width) * height;
 
-        ev.setLocation(newX, newY);
+        ev.setLocation(newY, newX);
 
         return ev;
     }

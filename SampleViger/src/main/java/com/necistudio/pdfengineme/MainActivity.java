@@ -68,7 +68,7 @@ public class MainActivity extends AppCompatActivity {
         itemData = new ArrayList<>();
         adapter = new VigerAdapter(getApplicationContext(), itemData);
         viewPager.setAdapter(adapter);
-        viewPager.setPageTransformer(true, new StackTransformer());
+        //viewPager.setPageTransformer(true, new StackTransformer());
 
     }
 
