@@ -23,8 +23,20 @@ dependencies {
 ### Library Support Open Source PDF and Connection 
 - Vudroid Library PDF
 - Retrofit 2 Get Stream Connection
+### Support Vertical Swap and Horizontal Swap
+```
+    <com.necistudio.vigerpdf.utils.ViewPagerZoomHorizontal
+        android:id="@+id/viewPager"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" />
 
-##Support Get PDF From URL
+    <com.necistudio.vigerpdf.utils.ViewPagerZoomVertical
+        android:id="@+id/viewPager"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" />
+
+```
+### Support Get PDF From URL
 ```
 private void fromNetwork(String endpoint) {
         new VigerPDF(this, endpoint).initFromFile(new OnResultListener() {
