@@ -94,7 +94,7 @@ public class RenderingPDF {
 
                     @Override
                     public void onComplete() {
-
+                        VigerPDF.onComplete();
                     }
                 }));
     }

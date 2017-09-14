@@ -1,5 +1,6 @@
 package com.necistudio.pdfengineme;
 
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.support.v4.view.ViewPager;
@@ -105,10 +106,18 @@ public class MainActivity extends AppCompatActivity {
 
             }
 
+            @Override
+            public void onComplete() {
+
+            }
+
         });
     }
 
     private void fromFile(String path) {
+        final ProgressDialog progressDialog =  new ProgressDialog(this);
+        progressDialog.setMessage("Loading...");
+        progressDialog.show();
         itemData.clear();
         adapter.notifyDataSetChanged();
         File file = new File(path);
@@ -117,7 +126,6 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void resultData(Bitmap data) {
                 itemData.add(data);
-                adapter.notifyDataSetChanged();
             }
 
             @Override
@@ -129,6 +137,12 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void failed(Throwable t) {
 
+            }
+
+            @Override
+            public void onComplete() {
+                adapter.notifyDataSetChanged();
+                progressDialog.dismiss();
             }
 
         });

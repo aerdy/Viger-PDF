@@ -14,4 +14,5 @@ public interface OnResultListener  {
     void resultData(Bitmap data);
     void progressData(int progress);
     void failed(Throwable t);
+    void onComplete();
 }
