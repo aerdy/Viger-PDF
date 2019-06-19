@@ -4,15 +4,17 @@
 ## Download
 Gradle:
 ```
-repositories {
-        jcenter()
-        maven { url 'https://jitpack.io' }
-}
+	allprojects {
+		repositories {
+			...
+			maven { url 'https://jitpack.io' }
+		}
+	}
 ```
 ```
 dependencies {
-    compile 'com.github.aerdy:Android-Viger_View_Pager_PDF_OpenSource:-SNAPSHOT'
-}
+	        implementation 'com.github.aerdy:Viger-PDF:1.2'
+	}
 
 ```
 
