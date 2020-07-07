@@ -8,7 +8,6 @@ import com.necistudio.vigerpdf.manage.RenderingPDF;
 import com.necistudio.vigerpdf.manage.RenderingPDFNetwork;
 
 import java.io.File;
-import java.util.ArrayList;
 
 /**
  * Created by Vim on 1/31/2017.
@@ -46,6 +45,10 @@ public class VigerPDF {
     public static int progressData(int progress) {
         onResultListener.progressData(progress);
         return progress;
+    }
+
+    public static void onComplete() {
+        onResultListener.onComplete();
     }
 
     public void initFromNetwork(String endpoint, OnResultListener resultListener) {
